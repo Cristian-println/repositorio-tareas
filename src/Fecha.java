@@ -1,0 +1,64 @@
+public class Fecha {
+    private int dia;
+    private int mes;
+    private int anio;
+    private int hora;
+    private int minuto;
+
+    public Fecha(int dia, int mes, int anio, int hora, int minuto) {
+        this.dia = dia;
+        this.mes = mes;
+        this.anio = anio;
+        this.hora = hora;
+        this.minuto = minuto;
+    }
+
+    public boolean estaAntesDeLaFechaAsignada(Fecha fecha) {
+        if (this.anio < fecha.getAnio()) {
+            return true;
+        } else if (this.anio > fecha.getAnio()) {
+            return false;
+        }
+
+        if (this.mes < fecha.getMes()) {
+            return true;
+        } else if (this.mes >fecha.getMes()) {
+            return false;
+        }
+
+        if (this.dia < fecha.getDia()) {
+            return true;
+        } else if (this.dia > fecha.getDia()) {
+            return false;
+        }
+
+        if (this.hora < fecha.getHora()) {
+            return true;
+        } else if (this.hora > fecha.getHora()) {
+            return false;
+        }
+
+        if (this.minuto < fecha.getMinuto()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    
+    public int getDia() { 
+        return dia; 
+    }
+    public int getMes() { 
+        return mes; 
+    }
+    public int getAnio() {
+        return anio;
+     }
+    public int getHora() { 
+        return hora; 
+    }
+    public int getMinuto() { 
+        return minuto; 
+    }
+}
