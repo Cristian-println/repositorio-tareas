@@ -9,6 +9,7 @@ public class Estudiante {
     private String apellido;
     private List<Tarea> tareasPendientes;
     private List<Entrega> entregas;
+    private int cantidadCalificaciones = 0;
 
     public Estudiante(String nombre, String apellido) {
         this.nombre = nombre;
@@ -56,6 +57,111 @@ public class Estudiante {
         }
         throw new IllegalArgumentException("La entrega no tiene comentario");
     }
+    
+    public List<Tarea> getTareasPendientes() {
+        return new ArrayList<>(tareasPendientes); 
+    }
+    
+    public List<Tarea> filtrarTareasPorMateria(String materia) {
+        List<Tarea> resultado = new ArrayList<>();
+
+        for (Tarea t : tareasPendientes) {
+            if (t.getMateria().equalsIgnoreCase(materia)) {
+                resultado.add(t);
+            }
+        }
+
+        return resultado;
+    }
+    public List<Tarea> ordenarTareasPorFecha() {
+        List<Tarea> copia = new ArrayList<>(tareasPendientes);
+
+        for (int i = 0; i < copia.size() - 1; i++) {
+            for (int j = 0; j < copia.size() - 1 - i; j++) {
+
+                Tarea t1 = copia.get(j);
+                Tarea t2 = copia.get(j + 1);
+
+                if (!t1.getFecha().estaAntesDeLaFechaAsignada(t2.getFecha())) {
+                    // intercambio
+                    copia.set(j, t2);
+                    copia.set(j + 1, t1);
+                }
+            }
+        }
+
+        return copia;
+    }
+    public List<Entrega> ordenarEntregasPorEstado() {
+        List<Entrega> copia = new ArrayList<>(entregas);
+
+        for (int i = 0; i < copia.size() - 1; i++) {
+            for (int j = 0; j < copia.size() - 1 - i; j++) {
+
+                Entrega e1 = copia.get(j);
+                Entrega e2 = copia.get(j + 1);
+
+                // false primero, true después
+                if (e1.getEstado() && !e2.getEstado()) {
+                    copia.set(j, e2);
+                    copia.set(j + 1, e1);
+                }
+            }
+        }
+
+        return copia;
+    }
+    
+    public List<Calificacion> obtenerCalificaciones() {
+        List<Calificacion> resultado = new ArrayList<>();
+
+        for (int i = 0; i < entregas.size(); i++) {
+            Entrega e = entregas.get(i);
+
+            if (e.getCalificacion() != null) {
+                resultado.add(e.getCalificacion());
+            }
+        }
+
+        return resultado;
+    }
+    
+    public double calcularPromedio() {
+        double suma = 0;
+        int contador = 0;
+
+        for (int i = 0; i < entregas.size(); i++) {
+            Entrega e = entregas.get(i);
+
+            if (e.getCalificacion() != null) {
+                suma += e.getCalificacion().obtenerNota();
+                contador++;
+            }
+        }
+
+        if (contador == 0) {
+            return 0;
+        }
+
+        return suma / contador;
+    }
+    
+    public double actualizarPromedioSiHayNuevaNota() {
+        int actuales = 0;
+
+        for (int i = 0; i < entregas.size(); i++) {
+            if (entregas.get(i).getCalificacion() != null) {
+                actuales++;
+            }
+        }
+
+        if (actuales > cantidadCalificaciones) {
+            cantidadCalificaciones = actuales;
+            return calcularPromedio();
+        }
+
+        return -1; //no hubo cambios
+    }
     public List<Entrega> getEntregas() {
         return new ArrayList<>(entregas); 
     }
@@ -68,7 +174,5 @@ public class Estudiante {
         return apellido; 
     }
 
-    public List<Tarea> getTareasPendientes() {
-        return new ArrayList<>(tareasPendientes); 
-    }
+    
 }

@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Docente {
@@ -53,7 +54,54 @@ public class Docente {
         Calificacion calificacion = new Calificacion(nota, comentario);
         entrega.setCalificacion(calificacion);
     }
+    
+    public String buscarEstudiantePorNombre(String nombre, String materia, List<Estudiante> estudiantes) {
 
+        for (int i = 0; i < estudiantes.size(); i++) {
+            Estudiante e = estudiantes.get(i);
+
+            boolean perteneceMateria = false;
+
+            List<Tarea> tareas = e.getTareasPendientes();
+            for (int j = 0; j < tareas.size(); j++) {
+                if (tareas.get(j).getMateria().equalsIgnoreCase(materia)) {
+                    perteneceMateria = true;
+                    break;
+                }
+            }
+
+            if (perteneceMateria && e.getNombre().equalsIgnoreCase(nombre)) {
+                return "Nombre: " + e.getNombre() + ", Apellido: " + e.getApellido();
+            }
+        }
+
+        return null; // no encontrado
+    }
+    
+    public List<Estudiante> filtrarEstudiantesPorMateria(String materia, List<Estudiante> estudiantes) {
+        List<Estudiante> resultado = new ArrayList<>();
+
+        for (int i = 0; i < estudiantes.size(); i++) {
+            Estudiante e = estudiantes.get(i);
+
+            boolean perteneceMateria = false;
+
+            List<Tarea> tareas = e.getTareasPendientes();
+            for (int j = 0; j < tareas.size(); j++) {
+                if (tareas.get(j).getMateria().equalsIgnoreCase(materia)) {
+                    perteneceMateria = true;
+                    break;
+                }
+            }
+
+            if (perteneceMateria) {
+                resultado.add(e);
+            }
+        }
+
+        return resultado;
+    }
+    
     public String getEmail() { 
         return email; 
     }
