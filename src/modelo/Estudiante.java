@@ -28,7 +28,34 @@ public class Estudiante {
     public void agregarEntrega(Entrega entrega) {
         entregas.add(entrega);
     }
+    
+ 
+    public List<Entrega> obtenerEntregasCalificadas() {
+        List<Entrega> calificadas = new ArrayList<>();
+        for (Entrega e : entregas) {
+            if (e.getCalificacion() != null) {
+                calificadas.add(e);
+            }
+        }
+        return calificadas;
+    }
 
+   
+    public double obtenerNota(Entrega entrega) {
+        Calificacion calificacion = entrega.getCalificacion();
+        if (calificacion != null) {
+            return calificacion.obtenerNota();
+        }
+        throw new IllegalArgumentException("La entrega no tiene calificacion");
+    }
+    
+    public String obtenerComentario(Entrega entrega) {
+        Calificacion calificacion = entrega.getCalificacion();
+        if (calificacion != null) {
+            return calificacion.obtenerComentario();
+        }
+        throw new IllegalArgumentException("La entrega no tiene comentario");
+    }
     public List<Entrega> getEntregas() {
         return new ArrayList<>(entregas); 
     }

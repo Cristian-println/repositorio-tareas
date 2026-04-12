@@ -45,6 +45,14 @@ public class Docente {
             asignarTareaAEstudiante(tarea, e);
         }
     }
+    
+    public void asignarCalificacion(Entrega entrega, double nota, String comentario) {
+        if (entrega == null) {
+            throw new IllegalArgumentException("La entrega no puede ser nula");
+        }
+        Calificacion calificacion = new Calificacion(nota, comentario);
+        entrega.setCalificacion(calificacion);
+    }
 
     public String getEmail() { 
         return email; 

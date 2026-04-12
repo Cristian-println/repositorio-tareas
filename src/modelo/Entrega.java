@@ -7,6 +7,8 @@ public class Entrega {
     private boolean estado;
     private Estudiante estudiante;
     private Tarea tarea;
+    private Calificacion calificacion;
+
 
     public Entrega(int idEntrega, Archivo archivo, Estudiante estudiante, Tarea tarea) {
         this.idEntrega = idEntrega;
@@ -25,6 +27,13 @@ public class Entrega {
         } else {
             throw new IllegalArgumentException("No se puede entregar la fecha paso el limite");
         }
+    }
+    public void setCalificacion(Calificacion calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    public Calificacion getCalificacion() {
+        return calificacion;
     }
  public int getIdEntrega() {
          return idEntrega;
