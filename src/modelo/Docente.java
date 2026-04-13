@@ -113,4 +113,36 @@ public class Docente {
     public GestorTarea getGestor() { 
         return gestor; 
     }
+ 
+    public Tarea crearTareaValidada(String titulo, Fecha fecha, String descripcion,
+                                    double calificacionEstimada, Archivo archivo, String materia) {
+        if (titulo == null || titulo.trim().isEmpty() || descripcion == null || descripcion.trim().isEmpty() || materia == null || materia.trim().isEmpty()) {
+            throw new IllegalArgumentException("US1 Error: Faltan campos obligatorios por llenar.");
+        }
+        if (fecha == null) {
+            throw new IllegalArgumentException("US1 Error: La fecha de la tarea es obligatoria.");
+        }
+        fecha.validarCalendario(); 
+
+        if (archivo != null) {
+            archivo.validarArchivo(10.0, java.util.Arrays.asList("pdf", "docx", "zip"));
+        }
+        return this.crearTarea(titulo, fecha, descripcion, calificacionEstimada, archivo, materia);
+    }
+
+    public String buscarEstudiantePorNombreValidado(String nombreBusqueda, String materia, java.util.List<Estudiante> estudiantes) {
+        if (nombreBusqueda == null || nombreBusqueda.trim().isEmpty()) {
+            throw new IllegalArgumentException("US5 Error: El campo de búsqueda no puede estar vacío.");
+        }
+        if (!nombreBusqueda.matches("^[a-zA-Z\\s]+$")) {
+            throw new IllegalArgumentException("US5 Error: El formato de búsqueda no es válido (solo letras).");
+        }
+
+        String resultado = this.buscarEstudiantePorNombre(nombreBusqueda, materia, estudiantes);
+
+        if (resultado == null) {
+            return "US5 Mensaje: No se encontró al estudiante '" + nombreBusqueda + "' en la materia '" + materia + "'.";
+        }
+        return resultado;
+    }
 }
