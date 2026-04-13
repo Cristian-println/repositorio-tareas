@@ -52,7 +52,7 @@ public class PanelCalificarTareas extends JPanel {
     }
 
     private void construirUI() {
-        add(Estilos.panelHeader("📋  Calificar Tareas"), BorderLayout.NORTH);
+        add(Estilos.panelHeader("   Calificar Tareas"), BorderLayout.NORTH);
 
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
             crearPanelIzquierdo(), crearPanelDerecho());
@@ -196,7 +196,7 @@ public class PanelCalificarTareas extends JPanel {
         g.gridx=0; g.gridy=row++; g.gridwidth=2; g.fill=GridBagConstraints.HORIZONTAL;
         JPanel panelBtn = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         panelBtn.setOpaque(false);
-        btnCalificar = Estilos.botonExito("✔  Guardar Calificación");
+        btnCalificar = Estilos.botonExito("   Guardar Calificación");
         btnCalificar.setEnabled(false);
         btnCalificar.addActionListener(e -> guardarCalificacion(lblMaxNota));
         panelBtn.add(btnCalificar);
@@ -255,10 +255,10 @@ public class PanelCalificarTareas extends JPanel {
         lblEntregado.setText(e.getFechaEntregaFormateada());
 
         if (e.isEsTardio()) {
-            lblTardio.setText("⚠  Entrega tardía");
+            lblTardio.setText("   Entrega tardía");
             lblTardio.setForeground(Estilos.COLOR_TARDIO);
         } else {
-            lblTardio.setText("✔  Entregada a tiempo");
+            lblTardio.setText("   Entregada a tiempo");
             lblTardio.setForeground(Estilos.COLOR_EXITO);
         }
 
@@ -288,10 +288,10 @@ public class PanelCalificarTareas extends JPanel {
             calMaxActual
         );
         if (error != null) {
-            lblMensaje.setText("⚠  " + error);
+            lblMensaje.setText("   " + error);
             lblMensaje.setForeground(Estilos.COLOR_ERROR);
         } else {
-            lblMensaje.setText("✔  Calificación guardada.");
+            lblMensaje.setText("   Calificación guardada.");
             lblMensaje.setForeground(Estilos.COLOR_EXITO);
             cargarEntregas(); // refrescar tabla
         }

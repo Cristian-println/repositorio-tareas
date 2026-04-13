@@ -31,7 +31,7 @@ public class VentanaPrincipal extends JFrame {
     private List<Estudiante> estudiantes;
 
     public VentanaPrincipal() {
-        super("Sistema Classroom");
+        super("Sistema Tareas");
         setIconImage(crearIcono());
         construirUI();
         configurarVentana();
@@ -53,7 +53,7 @@ public class VentanaPrincipal extends JFrame {
         cab.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         // ── Logo ──
-        JLabel lblLogo = new JLabel("📚  CLASSROOM");
+        JLabel lblLogo = new JLabel("   SISTEMA_TAREAS");
         lblLogo.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblLogo.setForeground(Color.WHITE);
         cab.add(lblLogo, BorderLayout.WEST);

@@ -44,7 +44,7 @@ public class PanelMisTareas extends JPanel {
     }
 
     private void construirUI() {
-        add(Estilos.panelHeader("📝  Mis Tareas Asignadas"), BorderLayout.NORTH);
+        add(Estilos.panelHeader("   Mis Tareas Asignadas"), BorderLayout.NORTH);
 
         // ── Filtros ──
         JPanel filtros = new JPanel(new FlowLayout(FlowLayout.LEFT, 12, 8));
@@ -110,7 +110,7 @@ public class PanelMisTareas extends JPanel {
         remove(filtros);
         JPanel norte = new JPanel(new BorderLayout());
         norte.setBackground(Estilos.COLOR_FONDO);
-        norte.add(Estilos.panelHeader("📝  Mis Tareas Asignadas"), BorderLayout.NORTH);
+        norte.add(Estilos.panelHeader("   Mis Tareas Asignadas"), BorderLayout.NORTH);
         norte.add(filtros, BorderLayout.SOUTH);
         add(norte, BorderLayout.NORTH);
         add(centro, BorderLayout.CENTER);
@@ -194,7 +194,7 @@ public class PanelMisTareas extends JPanel {
         String materia = (String) modeloTabla.getValueAt(fila, 1);
         String estado  = (String) modeloTabla.getValueAt(fila, 4);
         String nota    = (String) modeloTabla.getValueAt(fila, 5);
-        lblDetalle.setText(String.format("📋 \"%s\"  |  %s  |  Estado: %s  |  Nota: %s",
+        lblDetalle.setText(String.format("  \"%s\"  |  %s  |  Estado: %s  |  Nota: %s",
             titulo, materia, estado, nota));
     }
 

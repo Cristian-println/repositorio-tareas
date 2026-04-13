@@ -6,7 +6,7 @@
  * puede eliminarlo y configurar el classpath manualmente
  * añadiendo mysql-connector-j-*.jar al Build Path.
  */
-module classroom.proyecto {
+module SistemaTareas {
     requires java.sql;       // JDBC
     requires java.desktop;   // Swing / AWT
     // Si usa MySQL Connector/J >= 8.x como módulo nombrado:

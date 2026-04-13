@@ -45,7 +45,7 @@ public class PanelEntregarTarea extends JPanel {
     }
 
     private void construirUI() {
-        add(Estilos.panelHeader("📤  Entregar Tarea"), BorderLayout.NORTH);
+        add(Estilos.panelHeader("   Entregar Tarea"), BorderLayout.NORTH);
 
         JPanel contenedor = new JPanel(new GridBagLayout());
         contenedor.setBackground(Estilos.COLOR_FONDO);
@@ -128,7 +128,7 @@ public class PanelEntregarTarea extends JPanel {
         txtArchivoNombre.setEditable(false);
         txtArchivoNombre.setBackground(new Color(245, 245, 245));
         txtArchivoNombre.setText("Haga clic en \"Seleccionar archivo\"");
-        JButton btnSeleccionar = new JButton("📎 Seleccionar");
+        JButton btnSeleccionar = new JButton("  Seleccionar");
         btnSeleccionar.setFont(Estilos.FUENTE_NORMAL);
         btnSeleccionar.addActionListener(e -> seleccionarArchivo());
         panelArchivo.add(txtArchivoNombre, BorderLayout.CENTER);
@@ -160,7 +160,7 @@ public class PanelEntregarTarea extends JPanel {
         g.gridx=0; g.gridy=row++; g.gridwidth=2; g.fill=GridBagConstraints.HORIZONTAL;
         JPanel panelBtn = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         panelBtn.setOpaque(false);
-        btnEntregar = Estilos.botonExito("📤  Enviar Entrega");
+        btnEntregar = Estilos.botonExito("   Enviar Entrega");
         btnEntregar.setEnabled(false);
         btnEntregar.addActionListener(e -> enviarEntrega());
         panelBtn.add(btnEntregar);
@@ -206,7 +206,7 @@ public class PanelEntregarTarea extends JPanel {
         lblCalMax.setText(String.format("%.0f puntos", t.getCalificacionMaxima()));
 
         if (t.estaVencida()) {
-            lblFechaLimite.setText(t.getFechaLimiteFormateada() + "  ⚠ VENCIDA");
+            lblFechaLimite.setText(t.getFechaLimiteFormateada() + "    VENCIDA");
             lblFechaLimite.setForeground(Estilos.COLOR_ERROR);
         } else {
             lblFechaLimite.setText(t.getFechaLimiteFormateada());
@@ -223,11 +223,11 @@ public class PanelEntregarTarea extends JPanel {
                 lblEstadoEntrega.setText(estadoTxt);
                 lblEstadoEntrega.setForeground(
                     existente.getNota() != null ? Estilos.COLOR_EXITO : Estilos.COLOR_TARDIO);
-                btnEntregar.setText("📤  Volver a entregar");
+                btnEntregar.setText("   Volver a entregar");
             } else {
                 lblEstadoEntrega.setText("Pendiente");
                 lblEstadoEntrega.setForeground(Estilos.COLOR_TEXTO_GRIS);
-                btnEntregar.setText("📤  Enviar Entrega");
+                btnEntregar.setText("   Enviar Entrega");
             }
         }
         btnEntregar.setEnabled(archivoSeleccionado != null);
@@ -292,7 +292,7 @@ public class PanelEntregarTarea extends JPanel {
                 "✔  ¡Entrega enviada exitosamente!\n\n" +
                 "Tarea: " + t.getTitulo() + "\n" +
                 "Archivo: " + archivoSeleccionado.getName() + "\n" +
-                (t.estaVencida() ? "⚠ Entrega tardía" : "Entrega a tiempo"),
+                (t.estaVencida() ? "  Entrega tardía" : "Entrega a tiempo"),
                 "Confirmación de Entrega", JOptionPane.INFORMATION_MESSAGE);
 
             // Refrescar estado
@@ -314,7 +314,7 @@ public class PanelEntregarTarea extends JPanel {
     }
 
     private void mostrarError(String msg) {
-        lblMensaje.setText("⚠  " + msg);
+        lblMensaje.setText("   " + msg);
         lblMensaje.setForeground(Estilos.COLOR_ERROR);
     }
 

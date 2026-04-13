@@ -43,7 +43,7 @@ public class PanelCrearTarea extends JPanel {
     }
 
     private void construirUI() {
-        add(Estilos.panelHeader("✏  Crear Nueva Tarea"), BorderLayout.NORTH);
+        add(Estilos.panelHeader("   Crear Nueva Tarea"), BorderLayout.NORTH);
 
         JPanel contenedor = new JPanel(new GridBagLayout());
         contenedor.setBackground(Estilos.COLOR_FONDO);
@@ -103,7 +103,7 @@ public class PanelCrearTarea extends JPanel {
         txtArchivoNombre.setFont(Estilos.FUENTE_PEQUEÑA);
         txtArchivoNombre.setEditable(false);
         txtArchivoNombre.setBackground(new Color(245, 245, 245));
-        JButton btnSeleccionar = new JButton("📎 Seleccionar");
+        JButton btnSeleccionar = new JButton("  Seleccionar");
         btnSeleccionar.setFont(Estilos.FUENTE_NORMAL);
         btnSeleccionar.addActionListener(e -> seleccionarArchivoAdjunto());
         panelArchivo.add(txtArchivoNombre, BorderLayout.CENTER);
@@ -116,7 +116,7 @@ public class PanelCrearTarea extends JPanel {
         JPanel panelBtns = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         panelBtns.setOpaque(false);
         JButton btnLimpiar = Estilos.botonSecundario("Limpiar");
-        JButton btnCrear   = Estilos.botonPrimario("✔  Crear Tarea");
+        JButton btnCrear   = Estilos.botonPrimario("   Crear Tarea");
         btnLimpiar.addActionListener(e -> limpiar());
         btnCrear.addActionListener(e -> crearTarea());
         panelBtns.add(btnLimpiar);
@@ -199,7 +199,7 @@ public class PanelCrearTarea extends JPanel {
         if (error != null) {
             mostrarError(error);
         } else {
-            mostrarExito("✔  Tarea \"" + tarea.getTitulo() + "\" creada y asignada exitosamente.");
+            mostrarExito("   Tarea \"" + tarea.getTitulo() + "\" creada y asignada exitosamente.");
             limpiar();
         }
     }
@@ -227,7 +227,7 @@ public class PanelCrearTarea extends JPanel {
     }
 
     private void mostrarError(String msg) {
-        lblMensaje.setText("⚠  " + msg);
+        lblMensaje.setText(" Alerta " + msg);
         lblMensaje.setForeground(Estilos.COLOR_ERROR);
     }
 

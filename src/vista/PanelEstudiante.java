@@ -33,9 +33,9 @@ public class PanelEstudiante extends JPanel {
         tabs.setFont(Estilos.FUENTE_NEGRITA);
         tabs.setBackground(Estilos.COLOR_FONDO);
 
-        tabs.addTab("  📝  Mis Tareas  ",      panelMisTareas);
-        tabs.addTab("  📤  Entregar Tarea  ",   panelEntregar);
-        tabs.addTab("  🏆  Mis Notas  ",        panelNotas);
+        tabs.addTab("     Mis Tareas  ",      panelMisTareas);
+        tabs.addTab("     Entregar Tarea  ",   panelEntregar);
+        tabs.addTab("     Mis Notas  ",        panelNotas);
 
         tabs.addChangeListener(e -> {
             if (estudianteId < 1) return;

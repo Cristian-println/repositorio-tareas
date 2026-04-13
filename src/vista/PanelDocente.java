@@ -33,9 +33,9 @@ public class PanelDocente extends JPanel {
         tabs.setFont(Estilos.FUENTE_NEGRITA);
         tabs.setBackground(Estilos.COLOR_FONDO);
 
-        tabs.addTab("  ✏  Crear Tarea  ",       panelCrearTarea);
-        tabs.addTab("  📋  Calificar Tareas  ",  panelCalificar);
-        tabs.addTab("  🔍  Buscar Estudiante  ", panelBuscar);
+        tabs.addTab("     Crear Tarea  ",       panelCrearTarea);
+        tabs.addTab("     Calificar Tareas  ",  panelCalificar);
+        tabs.addTab("     Buscar Estudiante  ", panelBuscar);
 
         tabs.addChangeListener(e -> {
             if (docenteId < 1) return;

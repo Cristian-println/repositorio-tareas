@@ -37,7 +37,7 @@ public class PanelBuscarEstudiante extends JPanel {
     }
 
     private void construirUI() {
-        add(Estilos.panelHeader("🔍  Buscar Estudiantes"), BorderLayout.NORTH);
+        add(Estilos.panelHeader("   Buscar Estudiantes"), BorderLayout.NORTH);
 
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
             crearPanelBusqueda(), crearPanelDetalle());
@@ -57,7 +57,7 @@ public class PanelBuscarEstudiante extends JPanel {
         barraBusqueda.setBackground(Estilos.COLOR_FONDO);
         txtBusqueda = Estilos.campo(20);
         txtBusqueda.setToolTipText("Buscar por nombre o código de estudiante");
-        JButton btnBuscar = Estilos.botonPrimario("🔍 Buscar");
+        JButton btnBuscar = Estilos.botonPrimario("  Buscar");
         btnBuscar.setPreferredSize(new Dimension(100, 34));
         btnBuscar.addActionListener(e -> buscar());
         // También buscar con Enter

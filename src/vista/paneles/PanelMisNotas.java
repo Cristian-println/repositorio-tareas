@@ -38,7 +38,7 @@ public class PanelMisNotas extends JPanel {
     }
 
     private void construirUI() {
-        add(Estilos.panelHeader("🏆  Mis Notas y Promedio"), BorderLayout.NORTH);
+        add(Estilos.panelHeader("   Mis Notas y Promedio"), BorderLayout.NORTH);
 
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
             crearPanelResumen(), crearPanelTabla());
@@ -89,7 +89,7 @@ public class PanelMisNotas extends JPanel {
         lblContador.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Botón refrescar
-        JButton btnRefrescar = Estilos.botonSecundario("↺ Actualizar");
+        JButton btnRefrescar = Estilos.botonSecundario("  Actualizar");
         btnRefrescar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRefrescar.addActionListener(e -> cargarDatos(estudianteId));
 
@@ -137,7 +137,7 @@ public class PanelMisNotas extends JPanel {
 
         // Leyenda
         JLabel leyenda = Estilos.etiquetaGris(
-            "  ⓘ  Solo se muestran las tareas que el docente ha calificado");
+            "     Solo se muestran las tareas que el docente ha calificado");
         leyenda.setFont(Estilos.FUENTE_PEQUEÑA);
         leyenda.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
         panelTabla.add(leyenda, BorderLayout.SOUTH);
