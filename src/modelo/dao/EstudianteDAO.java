@@ -1,0 +1,104 @@
+package modelo.dao;
+
+import bd.Conexion;
+import modelo.Estudiante;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Acceso a datos para la entidad Estudiante.
+ * Responsable: Joel (T17)
+ */
+public class EstudianteDAO {
+
+    /** Devuelve todos los estudiantes. */
+    public List<Estudiante> obtenerTodos() {
+        List<Estudiante> lista = new ArrayList<>();
+        String sql = "SELECT id, nombre, codigo FROM estudiantes ORDER BY nombre";
+        try (Connection cn = Conexion.obtenerConexion();
+             Statement  st = cn.createStatement();
+             ResultSet  rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                lista.add(mapear(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("[EstudianteDAO] obtenerTodos: " + e.getMessage());
+        }
+        return lista;
+    }
+
+    /** Busca estudiantes por nombre o código (búsqueda parcial). */
+    public List<Estudiante> buscar(String termino) {
+        List<Estudiante> lista = new ArrayList<>();
+        String sql = "SELECT id, nombre, codigo FROM estudiantes " +
+                     "WHERE LOWER(nombre) LIKE ? OR LOWER(codigo) LIKE ? ORDER BY nombre";
+        try (Connection  cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            String like = "%" + termino.toLowerCase() + "%";
+            ps.setString(1, like);
+            ps.setString(2, like);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) lista.add(mapear(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("[EstudianteDAO] buscar: " + e.getMessage());
+        }
+        return lista;
+    }
+
+    /** Devuelve los estudiantes inscritos en una materia. */
+    public List<Estudiante> obtenerPorMateria(int materiaId) {
+        List<Estudiante> lista = new ArrayList<>();
+        String sql = "SELECT e.id, e.nombre, e.codigo FROM estudiantes e " +
+                     "JOIN inscripciones i ON e.id = i.estudiante_id " +
+                     "WHERE i.materia_id = ? ORDER BY e.nombre";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, materiaId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) lista.add(mapear(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("[EstudianteDAO] obtenerPorMateria: " + e.getMessage());
+        }
+        return lista;
+    }
+
+    /** Devuelve un estudiante por su ID. */
+    public Estudiante obtenerPorId(int id) {
+        String sql = "SELECT id, nombre, codigo FROM estudiantes WHERE id = ?";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapear(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("[EstudianteDAO] obtenerPorId: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /** Verifica si un estudiante está inscrito en una materia. */
+    public boolean estaInscrito(int estudianteId, int materiaId) {
+        String sql = "SELECT COUNT(*) FROM inscripciones " +
+                     "WHERE estudiante_id = ? AND materia_id = ?";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, estudianteId);
+            ps.setInt(2, materiaId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("[EstudianteDAO] estaInscrito: " + e.getMessage());
+        }
+        return false;
+    }
+
+    private Estudiante mapear(ResultSet rs) throws SQLException {
+        return new Estudiante(rs.getInt("id"), rs.getString("nombre"), rs.getString("codigo"));
+    }
+}

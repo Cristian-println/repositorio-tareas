@@ -1,72 +1,97 @@
 package modelo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Entidad que representa la entrega de una tarea por parte de un estudiante.
+ * Responsable: Joel (T15)
+ */
 public class Entrega {
-	private int idEntrega;
-    private Archivo archivo;
-    private Fecha fechaEntrega;
-    private boolean estado;
-    private Estudiante estudiante;
-    private Tarea tarea;
-    private Calificacion calificacion;
 
+    private static final DateTimeFormatter FMT =
+        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    public Entrega(int idEntrega, Archivo archivo, Estudiante estudiante, Tarea tarea) {
-        this.idEntrega = idEntrega;
-        this.archivo = archivo;
-        this.estudiante = estudiante;
-        this.tarea = tarea;
-        this.estado = false;
+    public enum Estado { ENTREGADA, CALIFICADA }
+
+    private int           id;
+    private int           tareaId;
+    private String        tareaTitulo;
+    private int           estudianteId;
+    private String        estudianteNombre;
+    private String        archivoRuta;
+    private String        comentarioEstudiante;
+    private LocalDateTime fechaEntrega;
+    private boolean       esTardio;
+    private Estado        estado;
+    // Datos de calificación (si existe)
+    private Double        nota;
+    private String        comentarioDocente;
+    private double        calificacionMaxima;
+
+    public Entrega() {}
+
+    public Entrega(int tareaId, int estudianteId, String archivoRuta,
+                   String comentarioEstudiante, boolean esTardio) {
+        this.tareaId              = tareaId;
+        this.estudianteId         = estudianteId;
+        this.archivoRuta          = archivoRuta;
+        this.comentarioEstudiante = comentarioEstudiante;
+        this.esTardio             = esTardio;
+        this.estado               = Estado.ENTREGADA;
     }
 
-    
-    public void registrarEntrega(Fecha fecha){
-        if (fecha.estaAntesDeLaFechaAsignada(tarea.getFecha())) {
-            this.fechaEntrega = fecha;
-            this.estado = true;
+    // ── Getters / Setters ────────────────────────────────────────────
+    public int    getId()            { return id; }
+    public void   setId(int id)       { this.id = id; }
 
-        } else {
-            throw new IllegalArgumentException("No se puede entregar la fecha paso el limite");
-        }
-    }
-    public void setCalificacion(Calificacion calificacion) {
-        this.calificacion = calificacion;
+    public int    getTareaId()        { return tareaId; }
+    public void   setTareaId(int t)   { this.tareaId = t; }
+
+    public String getTareaTitulo()    { return tareaTitulo; }
+    public void   setTareaTitulo(String t) { this.tareaTitulo = t; }
+
+    public int    getEstudianteId()   { return estudianteId; }
+    public void   setEstudianteId(int e) { this.estudianteId = e; }
+
+    public String getEstudianteNombre() { return estudianteNombre; }
+    public void   setEstudianteNombre(String e) { this.estudianteNombre = e; }
+
+    public String getArchivoRuta()    { return archivoRuta; }
+    public void   setArchivoRuta(String a) { this.archivoRuta = a; }
+
+    public String getComentarioEstudiante() { return comentarioEstudiante; }
+    public void   setComentarioEstudiante(String c) { this.comentarioEstudiante = c; }
+
+    public LocalDateTime getFechaEntrega() { return fechaEntrega; }
+    public void setFechaEntrega(LocalDateTime f) { this.fechaEntrega = f; }
+
+    public boolean isEsTardio()       { return esTardio; }
+    public void    setEsTardio(boolean e) { this.esTardio = e; }
+
+    public Estado  getEstado()        { return estado; }
+    public void    setEstado(Estado e) { this.estado = e; }
+
+    public Double  getNota()           { return nota; }
+    public void    setNota(Double n)   { this.nota = n; }
+
+    public String  getComentarioDocente() { return comentarioDocente; }
+    public void    setComentarioDocente(String c) { this.comentarioDocente = c; }
+
+    public double  getCalificacionMaxima() { return calificacionMaxima; }
+    public void    setCalificacionMaxima(double c) { this.calificacionMaxima = c; }
+
+    public String  getFechaEntregaFormateada() {
+        return fechaEntrega != null ? fechaEntrega.format(FMT) : "";
     }
 
-    public Calificacion getCalificacion() {
-        return calificacion;
+    public String  getEstadoTexto() {
+        if (nota != null) return "Calificada";
+        return esTardio ? "Entregada (tardía)" : "Entregada";
     }
- public int getIdEntrega() {
-         return idEntrega;
-         }
-    public Archivo getArchivo() { 
-        return archivo; 
-    }
-    public Fecha getFechaEntrega() {
-         return fechaEntrega;
-         }
-    public boolean getEstado() {
-         return estado; 
-        }
-    public Estudiante getEstudiante() {
-         return estudiante; 
-        }
-    public Tarea getTarea() {
-    	return tarea;
-    }
- 
-    public void registrarEntregaValidada(Fecha fechaIntento) {
-        if (fechaIntento == null) {
-            throw new IllegalArgumentException("US2 Error: Debe proporcionar una fecha de entrega.");
-        }
-        fechaIntento.validarCalendario(); 
-        
-        if (this.archivo == null) {
-            throw new IllegalArgumentException("US2 Error: La entrega debe contener un archivo (no puede estar vacío).");
-        }
-        
-        java.util.List<String> formatosPermitidos = java.util.Arrays.asList("pdf", "zip", "rar");
-        this.archivo.validarArchivo(50.0, formatosPermitidos);
-        
-        this.registrarEntrega(fechaIntento);
+
+    @Override
+    public String toString() {
+        return "Entrega[" + estudianteNombre + " - " + tareaTitulo + "]";
     }
 }
