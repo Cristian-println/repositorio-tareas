@@ -63,5 +63,16 @@ public class Fecha {
     public int getMinuto() { 
         return minuto; 
     }
+    public void validarCalendario() {
+        if (this.mes < 1 || this.mes > 12) {
+            throw new IllegalArgumentException("Error: El mes debe estar entre 1 y 12.");
+        }
+        if (this.dia < 1 || this.dia > 31) {
+            throw new IllegalArgumentException("Error: El día debe estar entre 1 y 31.");
+        }
+        if (this.hora < 0 || this.hora > 23 || this.minuto < 0 || this.minuto > 59) {
+            throw new IllegalArgumentException("Error: Formato de tiempo inválido (Horas 0-23, Minutos 0-59).");
+        }
+    }
 
 }
