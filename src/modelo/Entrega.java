@@ -53,4 +53,20 @@ public class Entrega {
     public Tarea getTarea() {
     	return tarea;
     }
+ 
+    public void registrarEntregaValidada(Fecha fechaIntento) {
+        if (fechaIntento == null) {
+            throw new IllegalArgumentException("US2 Error: Debe proporcionar una fecha de entrega.");
+        }
+        fechaIntento.validarCalendario(); 
+        
+        if (this.archivo == null) {
+            throw new IllegalArgumentException("US2 Error: La entrega debe contener un archivo (no puede estar vacío).");
+        }
+        
+        java.util.List<String> formatosPermitidos = java.util.Arrays.asList("pdf", "zip", "rar");
+        this.archivo.validarArchivo(50.0, formatosPermitidos);
+        
+        this.registrarEntrega(fechaIntento);
+    }
 }
