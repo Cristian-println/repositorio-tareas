@@ -32,5 +32,16 @@ public class Archivo {
         public String getNombre() {
         return nombre;
         }
+        public void validarArchivo(double maxTamanioMB, java.util.List<String> formatosPermitidos) {
+            if (this.tamanio <= 0) {
+                throw new IllegalArgumentException("Error: El archivo no puede estar vacío (0 MB).");
+            }
+            if (this.tamanio > maxTamanioMB) {
+                throw new IllegalArgumentException("Error: El tamaño del archivo excede el máximo permitido de " + maxTamanioMB + "MB.");
+            }
+            if (this.tipo == null || !formatosPermitidos.contains(this.tipo.toLowerCase())) {
+                throw new IllegalArgumentException("Error: Formato de archivo no válido. Permitidos: " + formatosPermitidos);
+            }
+        }
        
 }
