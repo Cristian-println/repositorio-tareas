@@ -173,6 +173,36 @@ public class Estudiante {
     public String getApellido() {
         return apellido; 
     }
+    public java.util.List<Tarea> verMisTareasValidadas() {
+        if (this.tareasPendientes == null || this.tareasPendientes.isEmpty()) {
+            throw new IllegalStateException("US6 Aviso: No tienes tareas asignadas actualmente.");
+        }
+        return this.verMisTareas(); 
+    }
+
+   
+    public java.util.List<Entrega> obtenerEntregasCalificadasValidadas() {
+        java.util.List<Entrega> calificadas = this.obtenerEntregasCalificadas(); 
+        if (calificadas == null || calificadas.isEmpty()) {
+            throw new IllegalStateException("US4 Aviso: No hay tareas calificadas para mostrar.");
+        }
+        return calificadas;
+    }
+
+ 
+    public double calcularPromedioValidado() {
+        boolean tieneNotas = false;
+        for (Entrega e : this.entregas) {
+            if (e.getCalificacion() != null) {
+                tieneNotas = true;
+                break;
+            }
+        }
+        if (!tieneNotas) {
+            throw new IllegalStateException("US8 Aviso: El estudiante " + this.nombre + " no tiene notas registradas.");
+        }
+        return this.calcularPromedio();
+    }
 
     
 }
