@@ -29,7 +29,7 @@ public class Main {
         // ── Verificar conexión a la BD antes de abrir la ventana ──
         if (!Conexion.probarConexion()) {
             JOptionPane.showMessageDialog(null,
-                "⚠  No se pudo conectar a la base de datos.\n\n" +
+                "   No se pudo conectar a la base de datos.\n\n" +
                 "Asegúrese de que:\n" +
                 "  • MySQL esté en ejecución\n" +
                 "  • La base de datos 'classroom_db' exista\n" +

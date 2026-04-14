@@ -128,7 +128,7 @@ public class VentanaPrincipal extends JFrame {
         ico.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 72));
         ico.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel t1 = new JLabel("Bienvenido al Sistema Classroom", SwingConstants.CENTER);
+        JLabel t1 = new JLabel("Bienvenido al Sistema Tareas", SwingConstants.CENTER);
         t1.setFont(new Font("Segoe UI", Font.BOLD, 22));
         t1.setForeground(Estilos.COLOR_PRIMARIO);
         t1.setAlignmentX(Component.CENTER_ALIGNMENT);
