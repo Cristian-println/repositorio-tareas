@@ -7,10 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Acceso a datos para la entidad Docente.
- * Responsable: Joel (T18)
- */
 public class DocenteDAO {
 
     public List<Docente> obtenerTodos() {

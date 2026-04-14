@@ -1,9 +1,5 @@
 package modelo;
 
-/**
- * Entidad que representa a un docente.
- * Responsable: Joel (T12)
- */
 public class Docente {
 
     private int    id;

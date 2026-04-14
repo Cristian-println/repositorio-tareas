@@ -6,10 +6,6 @@ import modelo.dao.CalificacionDAO;
 import modelo.dao.EntregaDAO;
 import validaciones.Validaciones;
 
-/**
- * Controlador de operaciones sobre Calificacion.
- * Responsable: Danner (T32)
- */
 public class CalificacionControlador {
 
     private final CalificacionDAO calificacionDAO = new CalificacionDAO();
@@ -25,7 +21,7 @@ public class CalificacionControlador {
      */
     public String calificar(int entregaId, String notaTexto,
                             String comentario, double calificacionMaxima) {
-        // Validar nota
+      
         String errorNota = Validaciones.validarNotaTexto(notaTexto, calificacionMaxima);
         if (errorNota != null) return errorNota;
 
@@ -36,12 +32,10 @@ public class CalificacionControlador {
         return null;
     }
 
-    /** Devuelve el promedio de un estudiante (-1 si no hay calificaciones). */
     public double obtenerPromedio(int estudianteId) {
         return calificacionDAO.calcularPromedio(estudianteId);
     }
 
-    /** Devuelve cuántas tareas ha calificado un estudiante. */
     public int contarCalificadas(int estudianteId) {
         return calificacionDAO.contarCalificadas(estudianteId);
     }

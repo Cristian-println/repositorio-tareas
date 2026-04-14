@@ -3,10 +3,6 @@ package modelo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Entidad que representa la calificación de una entrega.
- * Responsable: Joel (T16)
- */
 public class Calificacion {
 
     private static final DateTimeFormatter FMT =

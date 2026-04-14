@@ -7,10 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Acceso a datos para la entidad Entrega.
- * Responsable: Joel (T21)
- */
 public class EntregaDAO {
 
     private static final String BASE_SELECT =
@@ -23,8 +19,7 @@ public class EntregaDAO {
         "JOIN tareas t ON e.tarea_id = t.id " +
         "JOIN estudiantes est ON e.estudiante_id = est.id " +
         "LEFT JOIN calificaciones c ON e.id = c.entrega_id ";
-
-    /** Guarda una nueva entrega y devuelve su ID (-1 si falla). */
+    
     public int guardar(Entrega entrega) {
         String sql = "INSERT INTO entregas " +
                      "(tarea_id, estudiante_id, archivo_ruta, comentario_estudiante, fecha_entrega, es_tardio) " +
@@ -46,7 +41,6 @@ public class EntregaDAO {
         return -1;
     }
 
-    /** Actualiza el archivo de una entrega existente. */
     public boolean actualizar(Entrega entrega) {
         String sql = "UPDATE entregas SET archivo_ruta=?, comentario_estudiante=?, " +
                      "fecha_entrega=NOW(), es_tardio=? WHERE id=?";
@@ -63,17 +57,14 @@ public class EntregaDAO {
         return false;
     }
 
-    /** Entregas de una tarea específica. */
     public List<Entrega> obtenerPorTarea(int tareaId) {
         return consultar(BASE_SELECT + "WHERE e.tarea_id = ? ORDER BY e.fecha_entrega ASC", tareaId);
     }
 
-    /** Entregas de un estudiante específico. */
     public List<Entrega> obtenerPorEstudiante(int estudianteId) {
         return consultar(BASE_SELECT + "WHERE e.estudiante_id = ? ORDER BY e.fecha_entrega DESC", estudianteId);
     }
 
-    /** Verifica si un estudiante ya entregó una tarea. */
     public Entrega obtenerPorTareaYEstudiante(int tareaId, int estudianteId) {
         String sql = BASE_SELECT + "WHERE e.tarea_id = ? AND e.estudiante_id = ?";
         try (Connection cn = Conexion.obtenerConexion();
@@ -89,7 +80,6 @@ public class EntregaDAO {
         return null;
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────
     private List<Entrega> consultar(String sql, int param) {
         List<Entrega> lista = new ArrayList<>();
         try (Connection cn = Conexion.obtenerConexion();

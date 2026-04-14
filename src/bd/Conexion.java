@@ -4,10 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Gestiona la conexión JDBC a la base de datos MySQL.
- * Responsable: Josué (T09)
- */
 public class Conexion {
 
     private static final String URL =
@@ -18,7 +14,6 @@ public class Conexion {
 
     private static Connection conexion = null;
 
-    /** Devuelve (o crea) la conexión singleton. */
     public static Connection obtenerConexion() {
         try {
             if (conexion == null || conexion.isClosed()) {
@@ -33,7 +28,6 @@ public class Conexion {
         return conexion;
     }
 
-    /** Cierra la conexión si está abierta. */
     public static void cerrarConexion() {
         try {
             if (conexion != null && !conexion.isClosed()) {
@@ -45,7 +39,6 @@ public class Conexion {
         }
     }
 
-    /** Prueba si la conexión es posible. */
     public static boolean probarConexion() {
         return obtenerConexion() != null;
     }

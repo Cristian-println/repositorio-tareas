@@ -15,10 +15,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Lista de tareas asignadas al estudiante con estado y filtros (HU-6).
- * Responsable: Cristian (T39, T43)
- */
 public class PanelMisTareas extends JPanel {
 
     private int estudianteId = -1;
@@ -29,7 +25,6 @@ public class PanelMisTareas extends JPanel {
     private JTable              tabla;
     private JLabel              lblDetalle;
 
-    // Datos cargados
     private List<Tarea>   tareasOriginales = new ArrayList<>();
     private List<Entrega> entregasMap      = new ArrayList<>();
 
@@ -46,7 +41,6 @@ public class PanelMisTareas extends JPanel {
     private void construirUI() {
         add(Estilos.panelHeader("   Mis Tareas Asignadas"), BorderLayout.NORTH);
 
-        // ── Filtros ──
         JPanel filtros = new JPanel(new FlowLayout(FlowLayout.LEFT, 12, 8));
         filtros.setBackground(Estilos.COLOR_FONDO);
         filtros.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 12));
@@ -74,7 +68,6 @@ public class PanelMisTareas extends JPanel {
 
         add(filtros, BorderLayout.NORTH);
 
-        // ── Tabla ──
         String[] cols = {"Título", "Materia", "Docente", "Fecha límite", "Estado", "Nota"};
         modeloTabla = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -86,7 +79,6 @@ public class PanelMisTareas extends JPanel {
             if (!e.getValueIsAdjusting()) mostrarDetalle();
         });
 
-        // Anchos de columna
         tabla.getColumnModel().getColumn(0).setPreferredWidth(220);
         tabla.getColumnModel().getColumn(1).setPreferredWidth(130);
         tabla.getColumnModel().getColumn(2).setPreferredWidth(130);
@@ -94,7 +86,6 @@ public class PanelMisTareas extends JPanel {
         tabla.getColumnModel().getColumn(4).setPreferredWidth(140);
         tabla.getColumnModel().getColumn(5).setPreferredWidth(80);
 
-        // ── Detalle ──
         lblDetalle = new JLabel(" ");
         lblDetalle.setFont(Estilos.FUENTE_PEQUEÑA);
         lblDetalle.setForeground(Estilos.COLOR_TEXTO_GRIS);
@@ -106,7 +97,6 @@ public class PanelMisTareas extends JPanel {
         centro.add(Estilos.scrollPane(tabla), BorderLayout.CENTER);
         centro.add(lblDetalle, BorderLayout.SOUTH);
 
-        // Reemplazo del norte después de agregar filtros
         remove(filtros);
         JPanel norte = new JPanel(new BorderLayout());
         norte.setBackground(Estilos.COLOR_FONDO);
@@ -119,13 +109,11 @@ public class PanelMisTareas extends JPanel {
     public void cargarDatos(int estudianteId) {
         this.estudianteId = estudianteId;
 
-        // Recargar materias en filtro
         cmbFiltroMateria.removeAllItems();
         cmbFiltroMateria.addItem("Todas las materias");
         List<Materia> materias = materiaDAO.obtenerPorEstudiante(estudianteId);
         for (Materia m : materias) cmbFiltroMateria.addItem(m.getNombre());
 
-        // Cargar tareas
         tareasOriginales = tareaCtrl.obtenerTareasEstudiante(estudianteId);
         entregasMap      = entregaDAO.obtenerPorEstudiante(estudianteId);
 
@@ -142,16 +130,14 @@ public class PanelMisTareas extends JPanel {
         int count = 0;
 
         for (Tarea t : tareasOriginales) {
-            // Filtro materia
+
             if (filtroMateria != null && !filtroMateria.equals("Todas las materias")
                 && !t.getMateriaNombre().equals(filtroMateria)) continue;
 
-            // Calcular estado
             Entrega entrega = buscarEntrega(t.getId());
             String estado = calcularEstado(t, entrega);
             String nota   = calcularNota(entrega, t);
 
-            // Filtro estado
             if (filtroEstado != null && !filtroEstado.equals("Todos")) {
                 if (!estado.contains(filtroEstado)) continue;
             }
@@ -198,7 +184,6 @@ public class PanelMisTareas extends JPanel {
             titulo, materia, estado, nota));
     }
 
-    // ── Renderer de colores por estado ───────────────────────────────
     private static class EstadoCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable t, Object v,

@@ -7,15 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Acceso a datos para la entidad Calificacion.
- * Responsable: Joel (T22 + T23 promedio)
- */
 public class CalificacionDAO {
 
-    /** Guarda o actualiza la calificación de una entrega. */
     public boolean guardarOActualizar(Calificacion cal) {
-        // Si ya existe, actualiza
+   
         String sqlCheck = "SELECT id FROM calificaciones WHERE entrega_id = ?";
         try (Connection cn = Conexion.obtenerConexion();
              PreparedStatement ps = cn.prepareStatement(sqlCheck)) {
@@ -69,10 +64,6 @@ public class CalificacionDAO {
         return null;
     }
 
-    /**
-     * T23: Calcula el promedio de notas de un estudiante.
-     * Solo considera entregas calificadas.
-     */
     public double calcularPromedio(int estudianteId) {
         String sql = "SELECT AVG(c.nota) AS promedio " +
                      "FROM calificaciones c " +
@@ -93,7 +84,6 @@ public class CalificacionDAO {
         return -1;
     }
 
-    /** Cuenta las tareas calificadas de un estudiante. */
     public int contarCalificadas(int estudianteId) {
         String sql = "SELECT COUNT(*) FROM calificaciones c " +
                      "JOIN entregas e ON c.entrega_id = e.id " +
@@ -110,7 +100,6 @@ public class CalificacionDAO {
         return 0;
     }
 
-    /** Calificaciones de un estudiante con información de la tarea. */
     public List<Calificacion> obtenerPorEstudiante(int estudianteId) {
         List<Calificacion> lista = new ArrayList<>();
         String sql = "SELECT c.id, c.entrega_id, c.nota, c.comentario, c.fecha_calificacion " +

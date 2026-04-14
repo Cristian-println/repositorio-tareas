@@ -8,24 +8,17 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Clase de validaciones de datos del sistema.
- * Responsable: Marco (T24-T29)
- */
 public class Validaciones {
 
-    // T26: Tamaño de archivo (según historia de usuario)
-    public static final long TAMANO_MINIMO_BYTES = 10L * 1024 * 1024;       // 10 MB
-    public static final long TAMANO_MAXIMO_BYTES = 1024L * 1024 * 1024;     // 1 GB
+    public static final long TAMANO_MINIMO_BYTES = 10L * 1024 * 1024;  
+    public static final long TAMANO_MAXIMO_BYTES = 1024L * 1024 * 1024;    
 
-    // T27: Formatos permitidos
     private static final List<String> FORMATOS_PERMITIDOS =
         Arrays.asList("pdf", "doc", "docx", "txt", "xlsx", "xls", "pptx", "ppt",
                       "zip", "rar", "png", "jpg", "jpeg");
 
     private static final EstudianteDAO estudianteDAO = new EstudianteDAO();
 
-    // ── T24: Validar campos obligatorios de tarea ─────────────────────
     /**
      * Valida los datos de una tarea.
      * @return null si es válido, o mensaje de error
@@ -37,7 +30,7 @@ public class Validaciones {
             return "El título no puede superar 200 caracteres.";
         if (tarea.getFechaLimite() == null)
             return "La fecha de entrega es obligatoria.";
-        // T25: La fecha límite no puede ser en el pasado
+      
         String errorFecha = validarFechaLimite(tarea.getFechaLimite());
         if (errorFecha != null) return errorFecha;
         if (tarea.getMateriaId() <= 0)
@@ -46,10 +39,9 @@ public class Validaciones {
             return "No se identificó al docente.";
         if (tarea.getCalificacionMaxima() <= 0)
             return "La calificación máxima debe ser mayor a 0.";
-        return null; // válido
+        return null; 
     }
 
-    // ── T25: Validar fecha límite ─────────────────────────────────────
     public static String validarFechaLimite(LocalDateTime fecha) {
         if (fecha == null) return "La fecha de entrega es obligatoria.";
         if (fecha.isBefore(LocalDateTime.now()))
@@ -57,7 +49,6 @@ public class Validaciones {
         return null;
     }
 
-    // ── T26: Validar tamaño de archivo ────────────────────────────────
     public static String validarTamanoArchivo(File archivo) {
         if (archivo == null) return "Debe seleccionar un archivo.";
         long tamano = archivo.length();
@@ -69,7 +60,6 @@ public class Validaciones {
         return null;
     }
 
-    // ── T27: Validar formato de archivo ───────────────────────────────
     public static String validarFormatoArchivo(File archivo) {
         if (archivo == null) return "Debe seleccionar un archivo.";
         String nombre = archivo.getName().toLowerCase();
@@ -82,16 +72,14 @@ public class Validaciones {
         return null;
     }
 
-    /** Valida formato y tamaño en un solo paso. */
     public static String validarArchivo(File archivo) {
         String errFmt = validarFormatoArchivo(archivo);
         if (errFmt != null) return errFmt;
         return validarTamanoArchivo(archivo);
     }
 
-    // ── T28: Validar rango de calificación ────────────────────────────
     /**
-     * @param nota              nota a asignar
+     * @param nota nota a asignar
      * @param calificacionMaxima calificación máxima de la tarea
      */
     public static String validarCalificacion(double nota, double calificacionMaxima) {
@@ -103,14 +91,12 @@ public class Validaciones {
         return null;
     }
 
-    // ── T29: Validar inscripción ──────────────────────────────────────
     public static String validarInscripcion(int estudianteId, int materiaId) {
         if (!estudianteDAO.estaInscrito(estudianteId, materiaId))
             return "El estudiante no está inscrito en esta materia.";
         return null;
     }
 
-    // ── Utilidades ────────────────────────────────────────────────────
     public static boolean esNuloOVacio(String valor) {
         return valor == null || valor.trim().isEmpty();
     }

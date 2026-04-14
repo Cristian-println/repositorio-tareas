@@ -12,21 +12,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Panel para que el Docente revise entregas y califique (HU-3).
- * Responsable: Danner (T34)
- */
 public class PanelCalificarTareas extends JPanel {
 
     private int docenteId = -1;
 
-    // Listas
     private DefaultListModel<Tarea>   modeloTareas    = new DefaultListModel<>();
     private DefaultTableModel         modeloEntregas;
     private JList<Tarea>              listaTareas;
     private JTable                    tablaEntregas;
 
-    // Form calificación
     private JLabel       lblEstudiante;
     private JLabel       lblEntregado;
     private JLabel       lblTardio;
@@ -36,7 +30,6 @@ public class PanelCalificarTareas extends JPanel {
     private JLabel       lblArchivoEntrega;
     private JButton      btnCalificar;
 
-    // Estado
     private List<Entrega> entregasActuales;
     private int           entregaSeleccionadaId  = -1;
     private double        calMaxActual           = 100.0;
@@ -63,13 +56,11 @@ public class PanelCalificarTareas extends JPanel {
         add(split, BorderLayout.CENTER);
     }
 
-    // ── Panel izquierdo: lista de tareas + tabla de entregas ──────────
     private JPanel crearPanelIzquierdo() {
         JPanel panel = new JPanel(new BorderLayout(0, 6));
         panel.setBackground(Estilos.COLOR_FONDO);
         panel.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 6));
 
-        // ── Tareas ──
         JPanel panelTareas = Estilos.panelConTitulo("Tareas asignadas");
         panelTareas.setLayout(new BorderLayout());
 
@@ -83,7 +74,6 @@ public class PanelCalificarTareas extends JPanel {
         panelTareas.add(Estilos.scrollPane(listaTareas), BorderLayout.CENTER);
         panelTareas.setPreferredSize(new Dimension(0, 240));
 
-        // ── Entregas de la tarea seleccionada ──
         String[] cols = {"Estudiante", "Entregado", "Estado"};
         modeloEntregas = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -108,7 +98,6 @@ public class PanelCalificarTareas extends JPanel {
         return panel;
     }
 
-    // ── Panel derecho: formulario de calificación ─────────────────────
     private JPanel crearPanelDerecho() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Estilos.COLOR_FONDO);
@@ -122,7 +111,6 @@ public class PanelCalificarTareas extends JPanel {
         g.anchor  = GridBagConstraints.WEST;
         int row = 0;
 
-        // Estudiante
         g.gridx=0; g.gridy=row; g.weightx=0; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Estudiante:"), g);
         g.gridx=1; g.weightx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -131,7 +119,6 @@ public class PanelCalificarTareas extends JPanel {
         form.add(lblEstudiante, g);
         row++;
 
-        // Fecha entrega
         g.gridx=0; g.gridy=row; g.weightx=0; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Entregado:"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -140,7 +127,6 @@ public class PanelCalificarTareas extends JPanel {
         form.add(lblEntregado, g);
         row++;
 
-        // ¿Tardío?
         g.gridx=0; g.gridy=row; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Estado:"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -149,7 +135,6 @@ public class PanelCalificarTareas extends JPanel {
         form.add(lblTardio, g);
         row++;
 
-        // Archivo de entrega
         g.gridx=0; g.gridy=row; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Archivo:"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -159,12 +144,10 @@ public class PanelCalificarTareas extends JPanel {
         form.add(lblArchivoEntrega, g);
         row++;
 
-        // Separador
         g.gridx=0; g.gridy=row++; g.gridwidth=2; g.fill=GridBagConstraints.HORIZONTAL;
         form.add(new JSeparator(), g);
         g.gridwidth=1;
 
-        // Nota
         g.gridx=0; g.gridy=row; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Nota: *"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -181,7 +164,6 @@ public class PanelCalificarTareas extends JPanel {
         form.add(panelNota, g);
         row++;
 
-        // Comentario
         g.gridx=0; g.gridy=row; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Comentario:"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL; g.weighty=1;
@@ -192,7 +174,6 @@ public class PanelCalificarTareas extends JPanel {
         row++;
         g.weighty = 0;
 
-        // Botón calificar
         g.gridx=0; g.gridy=row++; g.gridwidth=2; g.fill=GridBagConstraints.HORIZONTAL;
         JPanel panelBtn = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
         panelBtn.setOpaque(false);
@@ -202,7 +183,6 @@ public class PanelCalificarTareas extends JPanel {
         panelBtn.add(btnCalificar);
         form.add(panelBtn, g);
 
-        // Mensaje
         g.gridy = row;
         lblMensaje = new JLabel(" ");
         lblMensaje.setFont(Estilos.FUENTE_NORMAL);
@@ -212,7 +192,6 @@ public class PanelCalificarTareas extends JPanel {
         return panel;
     }
 
-    // ── Lógica ───────────────────────────────────────────────────────
     public void cargarDatos(int docenteId) {
         this.docenteId = docenteId;
         modeloTareas.clear();
@@ -266,7 +245,6 @@ public class PanelCalificarTareas extends JPanel {
         lblArchivoEntrega.setText(ruta != null
             ? java.nio.file.Paths.get(ruta).getFileName().toString() : "(sin archivo)");
 
-        // Pre-rellenar nota si ya estaba calificada
         if (e.getNota() != null) {
             txtNota.setText(String.format("%.2f", e.getNota()));
         } else {
@@ -293,7 +271,7 @@ public class PanelCalificarTareas extends JPanel {
         } else {
             lblMensaje.setText("   Calificación guardada.");
             lblMensaje.setForeground(Estilos.COLOR_EXITO);
-            cargarEntregas(); // refrescar tabla
+            cargarEntregas(); 
         }
     }
 
@@ -310,7 +288,6 @@ public class PanelCalificarTareas extends JPanel {
         entregaSeleccionadaId = -1;
     }
 
-    // ── Renderer personalizado para la lista de tareas ────────────────
     private static class TareaListCellRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> l, Object v,

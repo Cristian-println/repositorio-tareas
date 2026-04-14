@@ -13,10 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Panel para que el Estudiante entregue una tarea (HU-2).
- * Responsable: Cristian (T40, T45)
- */
 public class PanelEntregarTarea extends JPanel {
 
     private int estudianteId = -1;
@@ -62,7 +58,6 @@ public class PanelEntregarTarea extends JPanel {
         g.anchor  = GridBagConstraints.WEST;
         int row = 0;
 
-        // ── Selección de tarea ──
         g.gridx=0; g.gridy=row; g.weightx=0; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Tarea: *"), g);
         g.gridx=1; g.weightx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -72,7 +67,6 @@ public class PanelEntregarTarea extends JPanel {
         form.add(cmbTareas, g);
         row++;
 
-        // ── Info de la tarea (solo lectura) ──
         g.gridx=0; g.gridy=row; g.weightx=0; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Materia:"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -113,12 +107,10 @@ public class PanelEntregarTarea extends JPanel {
         form.add(lblEstadoEntrega, g);
         row++;
 
-        // ── Separador ──
         g.gridx=0; g.gridy=row++; g.gridwidth=2; g.fill=GridBagConstraints.HORIZONTAL;
         form.add(new JSeparator(), g);
         g.gridwidth=1;
 
-        // ── Selección de archivo ──
         g.gridx=0; g.gridy=row; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Archivo: *"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL;
@@ -136,7 +128,6 @@ public class PanelEntregarTarea extends JPanel {
         form.add(panelArchivo, g);
         row++;
 
-        // ── Nota de tamaños ──
         g.gridx=0; g.gridy=row++; g.gridwidth=2;
         JLabel lblNota = Estilos.etiquetaGris(
             "  ⓘ  Formatos permitidos: PDF, DOC, DOCX, TXT, XLSX, ZIP…  " +
@@ -145,7 +136,6 @@ public class PanelEntregarTarea extends JPanel {
         form.add(lblNota, g);
         g.gridwidth=1;
 
-        // ── Comentario ──
         g.gridx=0; g.gridy=row; g.fill=GridBagConstraints.NONE;
         form.add(Estilos.etiqueta("Comentario:"), g);
         g.gridx=1; g.fill=GridBagConstraints.HORIZONTAL; g.weighty=1;
@@ -156,7 +146,6 @@ public class PanelEntregarTarea extends JPanel {
         row++;
         g.weighty=0;
 
-        // ── Botón entregar ──
         g.gridx=0; g.gridy=row++; g.gridwidth=2; g.fill=GridBagConstraints.HORIZONTAL;
         JPanel panelBtn = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         panelBtn.setOpaque(false);
@@ -166,7 +155,6 @@ public class PanelEntregarTarea extends JPanel {
         panelBtn.add(btnEntregar);
         form.add(panelBtn, g);
 
-        // ── Mensaje ──
         g.gridy = row; g.insets = new Insets(4, 6, 4, 6);
         lblMensaje = new JLabel(" ");
         lblMensaje.setFont(Estilos.FUENTE_NORMAL);
@@ -213,7 +201,6 @@ public class PanelEntregarTarea extends JPanel {
             lblFechaLimite.setForeground(Estilos.COLOR_EXITO);
         }
 
-        // Estado de entrega actual
         if (estudianteId > 0) {
             Entrega existente = entregaCtrl.obtenerEntrega(t.getId(), estudianteId);
             if (existente != null) {
@@ -238,13 +225,13 @@ public class PanelEntregarTarea extends JPanel {
         fc.setDialogTitle("Seleccionar archivo de entrega");
         if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File archivo = fc.getSelectedFile();
-            // Validar formato
+            
             String errFmt = Validaciones.validarFormatoArchivo(archivo);
             if (errFmt != null) {
                 mostrarError(errFmt);
                 return;
             }
-            // Validar tamaño (10MB mín, 1GB máx)
+            
             String errTam = Validaciones.validarTamanoArchivo(archivo);
             if (errTam != null) {
                 mostrarError(errTam);
@@ -264,7 +251,6 @@ public class PanelEntregarTarea extends JPanel {
         if (archivoSeleccionado == null)   { mostrarError("Seleccione un archivo."); return; }
         if (estudianteId < 1)              { mostrarError("Estudiante no identificado."); return; }
 
-        // Confirmar si tardía
         if (t.estaVencida()) {
             int conf = JOptionPane.showConfirmDialog(this,
                 "La fecha límite ya pasó. ¿Desea enviar la entrega de todas formas?\n" +
@@ -287,15 +273,13 @@ public class PanelEntregarTarea extends JPanel {
                 : "✔  Entrega enviada exitosamente. El docente recibirá tu archivo.";
             mostrarExito(msg);
 
-            // Mostrar diálogo de confirmación (HU-2: debe mostrar confirmación)
             JOptionPane.showMessageDialog(this,
-                "✔  ¡Entrega enviada exitosamente!\n\n" +
+                "   ¡Entrega enviada exitosamente!\n\n" +
                 "Tarea: " + t.getTitulo() + "\n" +
                 "Archivo: " + archivoSeleccionado.getName() + "\n" +
                 (t.estaVencida() ? "  Entrega tardía" : "Entrega a tiempo"),
                 "Confirmación de Entrega", JOptionPane.INFORMATION_MESSAGE);
 
-            // Refrescar estado
             archivoSeleccionado = null;
             txtArchivoNombre.setText("Haga clic en \"Seleccionar archivo\"");
             txtComentario.setText("");

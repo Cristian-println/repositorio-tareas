@@ -7,10 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Acceso a datos para la entidad Materia.
- * Responsable: Joel (T19)
- */
 public class MateriaDAO {
 
     public List<Materia> obtenerTodas() {
@@ -26,7 +22,6 @@ public class MateriaDAO {
         return lista;
     }
 
-    /** Devuelve las materias en las que está inscrito un estudiante. */
     public List<Materia> obtenerPorEstudiante(int estudianteId) {
         List<Materia> lista = new ArrayList<>();
         String sql = "SELECT m.id, m.nombre, m.codigo FROM materias m " +

@@ -7,10 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Acceso a datos para la entidad Tarea.
- * Responsable: Joel (T20)
- */
 public class TareaDAO {
 
     private static final String BASE_SELECT =
@@ -22,7 +18,6 @@ public class TareaDAO {
         "JOIN materias m ON t.materia_id = m.id " +
         "JOIN docentes d ON t.docente_id = d.id ";
 
-    /** Guarda una nueva tarea y devuelve su ID generado (-1 si falla). */
     public int guardar(Tarea tarea) {
         String sql = "INSERT INTO tareas (titulo, descripcion, fecha_limite, " +
                      "calificacion_maxima, archivo_adjunto, materia_id, docente_id) " +
@@ -46,16 +41,11 @@ public class TareaDAO {
         return -1;
     }
 
-    /** Devuelve las tareas de un docente. */
     public List<Tarea> obtenerPorDocente(int docenteId) {
         return ejecutarConsulta(BASE_SELECT + "WHERE t.docente_id = ? ORDER BY t.fecha_limite DESC",
                 docenteId);
     }
 
-    /**
-     * Devuelve las tareas asignadas a un estudiante
-     * (a través de sus inscripciones en materias).
-     */
     public List<Tarea> obtenerPorEstudiante(int estudianteId) {
         List<Tarea> lista = new ArrayList<>();
         String sql = BASE_SELECT +
@@ -74,7 +64,6 @@ public class TareaDAO {
         return lista;
     }
 
-    /** Devuelve las tareas de una materia. */
     public List<Tarea> obtenerPorMateria(int materiaId) {
         return ejecutarConsulta(BASE_SELECT + "WHERE t.materia_id = ? ORDER BY t.fecha_limite DESC",
                 materiaId);
@@ -85,7 +74,6 @@ public class TareaDAO {
         return r.isEmpty() ? null : r.get(0);
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────
     private List<Tarea> ejecutarConsulta(String sql, int param) {
         List<Tarea> lista = new ArrayList<>();
         try (Connection cn = Conexion.obtenerConexion();

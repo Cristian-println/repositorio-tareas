@@ -16,10 +16,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Formulario para que el Docente cree nuevas tareas (HU-1).
- * Responsable: Cristian (T46)
- */
 public class PanelCrearTarea extends JPanel {
 
     private int docenteId = -1;
@@ -61,32 +57,27 @@ public class PanelCrearTarea extends JPanel {
 
         int row = 0;
 
-        // ── Título ──
         agregarFila(form, g, row++, "Título: *",
             txtTitulo = Estilos.campo(35));
 
-        // ── Descripción ──
         txtDescripcion = Estilos.areaTexto(4, 35);
         JScrollPane scrollDesc = new JScrollPane(txtDescripcion);
         scrollDesc.setPreferredSize(new Dimension(0, 90));
         agregarFila(form, g, row++, "Descripción:", scrollDesc);
 
-        // ── Materia ──
         cmbMateria = new JComboBox<>();
         cmbMateria.setFont(Estilos.FUENTE_NORMAL);
         cargarMaterias();
         agregarFila(form, g, row++, "Materia: *", cmbMateria);
 
-        // ── Fecha límite ──
         spnFecha = new JSpinner(new SpinnerDateModel());
         spnFecha.setEditor(new JSpinner.DateEditor(spnFecha, "dd/MM/yyyy  HH:mm"));
         spnFecha.setFont(Estilos.FUENTE_NORMAL);
-        // Valor inicial: mañana
+        
         spnFecha.setValue(Date.from(LocalDateTime.now().plusDays(1)
             .atZone(ZoneId.systemDefault()).toInstant()));
         agregarFila(form, g, row++, "Fecha límite: *", spnFecha);
 
-        // ── Nota máxima ──
         spnCalMax = new JSpinner(new SpinnerNumberModel(100.0, 0.5, 1000.0, 0.5));
         spnCalMax.setFont(Estilos.FUENTE_NORMAL);
         JPanel panelNota = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -96,7 +87,6 @@ public class PanelCrearTarea extends JPanel {
         panelNota.add(Estilos.etiquetaGris("puntos"));
         agregarFila(form, g, row++, "Nota máxima: *", panelNota);
 
-        // ── Archivo adjunto ──
         JPanel panelArchivo = new JPanel(new BorderLayout(6, 0));
         panelArchivo.setOpaque(false);
         txtArchivoNombre = new JTextField("(ninguno seleccionado)");
@@ -110,7 +100,6 @@ public class PanelCrearTarea extends JPanel {
         panelArchivo.add(btnSeleccionar,   BorderLayout.EAST);
         agregarFila(form, g, row++, "Adjunto (opcional):", panelArchivo);
 
-        // ── Botones ──
         g.gridx = 0; g.gridy = row++; g.gridwidth = 2;
         g.fill = GridBagConstraints.HORIZONTAL;
         JPanel panelBtns = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
@@ -123,7 +112,6 @@ public class PanelCrearTarea extends JPanel {
         panelBtns.add(btnCrear);
         form.add(panelBtns, g);
 
-        // ── Mensaje de estado ──
         g.gridy = row; g.insets = new Insets(4, 6, 4, 6);
         lblMensaje = new JLabel(" ");
         lblMensaje.setFont(Estilos.FUENTE_NORMAL);
@@ -137,7 +125,6 @@ public class PanelCrearTarea extends JPanel {
         add(Estilos.scrollPane(contenedor), BorderLayout.CENTER);
     }
 
-    /** Helper para añadir una fila etiqueta-componente al form. */
     private void agregarFila(JPanel form, GridBagConstraints g,
                               int fila, String etiqueta, Component comp) {
         g.gridx = 0; g.gridy = fila; g.gridwidth = 1;
@@ -174,7 +161,6 @@ public class PanelCrearTarea extends JPanel {
         LocalDateTime fechaLimite = fechaDate.toInstant()
             .atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        // Copiar adjunto si existe
         String rutaAdjunto = null;
         if (archivoAdjunto != null) {
             try {

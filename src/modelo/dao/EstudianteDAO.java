@@ -7,13 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Acceso a datos para la entidad Estudiante.
- * Responsable: Joel (T17)
- */
 public class EstudianteDAO {
 
-    /** Devuelve todos los estudiantes. */
     public List<Estudiante> obtenerTodos() {
         List<Estudiante> lista = new ArrayList<>();
         String sql = "SELECT id, nombre, codigo FROM estudiantes ORDER BY nombre";
@@ -29,7 +24,6 @@ public class EstudianteDAO {
         return lista;
     }
 
-    /** Busca estudiantes por nombre o código (búsqueda parcial). */
     public List<Estudiante> buscar(String termino) {
         List<Estudiante> lista = new ArrayList<>();
         String sql = "SELECT id, nombre, codigo FROM estudiantes " +
@@ -48,7 +42,6 @@ public class EstudianteDAO {
         return lista;
     }
 
-    /** Devuelve los estudiantes inscritos en una materia. */
     public List<Estudiante> obtenerPorMateria(int materiaId) {
         List<Estudiante> lista = new ArrayList<>();
         String sql = "SELECT e.id, e.nombre, e.codigo FROM estudiantes e " +
@@ -66,7 +59,6 @@ public class EstudianteDAO {
         return lista;
     }
 
-    /** Devuelve un estudiante por su ID. */
     public Estudiante obtenerPorId(int id) {
         String sql = "SELECT id, nombre, codigo FROM estudiantes WHERE id = ?";
         try (Connection cn = Conexion.obtenerConexion();
@@ -81,7 +73,6 @@ public class EstudianteDAO {
         return null;
     }
 
-    /** Verifica si un estudiante está inscrito en una materia. */
     public boolean estaInscrito(int estudianteId, int materiaId) {
         String sql = "SELECT COUNT(*) FROM inscripciones " +
                      "WHERE estudiante_id = ? AND materia_id = ?";

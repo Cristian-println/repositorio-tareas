@@ -3,10 +3,6 @@ package modelo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Entidad que representa la entrega de una tarea por parte de un estudiante.
- * Responsable: Joel (T15)
- */
 public class Entrega {
 
     private static final DateTimeFormatter FMT =
@@ -24,7 +20,7 @@ public class Entrega {
     private LocalDateTime fechaEntrega;
     private boolean       esTardio;
     private Estado        estado;
-    // Datos de calificación (si existe)
+
     private Double        nota;
     private String        comentarioDocente;
     private double        calificacionMaxima;
@@ -41,7 +37,6 @@ public class Entrega {
         this.estado               = Estado.ENTREGADA;
     }
 
-    // ── Getters / Setters ────────────────────────────────────────────
     public int    getId()            { return id; }
     public void   setId(int id)       { this.id = id; }
 

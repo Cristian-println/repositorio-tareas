@@ -10,21 +10,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Panel de notas y promedio del estudiante (HU-4, HU-8).
- * Responsable: Cristian (T41, T44)
- */
 public class PanelMisNotas extends JPanel {
 
     private int estudianteId = -1;
 
-    // Resumen
     private JLabel          lblPromedio;
     private JLabel          lblPromedioTexto;
     private JLabel          lblContador;
     private JLabel          lblLetra;
 
-    // Tabla de notas
     private DefaultTableModel modeloTabla;
     private JTable            tabla;
 
@@ -48,7 +42,6 @@ public class PanelMisNotas extends JPanel {
         add(split, BorderLayout.CENTER);
     }
 
-    // ── Panel de resumen (izquierda) ──────────────────────────────────
     private JPanel crearPanelResumen() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Estilos.COLOR_FONDO);
@@ -64,7 +57,6 @@ public class PanelMisNotas extends JPanel {
         JLabel lblTitCard = Estilos.etiquetaSeccion("Mi Promedio");
         lblTitCard.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Número grande del promedio
         lblPromedio = new JLabel("—", SwingConstants.CENTER);
         lblPromedio.setFont(Estilos.FUENTE_PROMEDIO);
         lblPromedio.setForeground(Estilos.COLOR_PRIMARIO);
@@ -75,7 +67,6 @@ public class PanelMisNotas extends JPanel {
         lblPromedioTexto.setForeground(Estilos.COLOR_TEXTO_GRIS);
         lblPromedioTexto.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Letra equivalente
         lblLetra = new JLabel(" ", SwingConstants.CENTER);
         lblLetra.setFont(new Font("Segoe UI", Font.BOLD, 32));
         lblLetra.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -88,7 +79,6 @@ public class PanelMisNotas extends JPanel {
         lblContador.setForeground(Estilos.COLOR_TEXTO_GRIS);
         lblContador.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Botón refrescar
         JButton btnRefrescar = Estilos.botonSecundario("  Actualizar");
         btnRefrescar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnRefrescar.addActionListener(e -> cargarDatos(estudianteId));
@@ -111,7 +101,6 @@ public class PanelMisNotas extends JPanel {
         return panel;
     }
 
-    // ── Panel de tabla (derecha) ──────────────────────────────────────
     private JPanel crearPanelTabla() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Estilos.COLOR_FONDO);
@@ -135,7 +124,6 @@ public class PanelMisNotas extends JPanel {
         panelTabla.setLayout(new BorderLayout());
         panelTabla.add(Estilos.scrollPane(tabla), BorderLayout.CENTER);
 
-        // Leyenda
         JLabel leyenda = Estilos.etiquetaGris(
             "     Solo se muestran las tareas que el docente ha calificado");
         leyenda.setFont(Estilos.FUENTE_PEQUEÑA);
@@ -146,17 +134,15 @@ public class PanelMisNotas extends JPanel {
         return panel;
     }
 
-    // ── Lógica ───────────────────────────────────────────────────────
     public void cargarDatos(int estudianteId) {
         this.estudianteId = estudianteId;
         modeloTabla.setRowCount(0);
 
-        // Solo entregas calificadas (HU-4: mostrar únicamente tareas calificadas)
         List<Entrega> entregas = entregaDAO.obtenerPorEstudiante(estudianteId);
         int calificadas = 0;
 
         for (Entrega e : entregas) {
-            if (e.getNota() == null) continue; // solo calificadas
+            if (e.getNota() == null) continue; 
             calificadas++;
             modeloTabla.addRow(new Object[]{
                 e.getTareaTitulo(),
@@ -169,12 +155,10 @@ public class PanelMisNotas extends JPanel {
             });
         }
 
-        // Calcular y mostrar promedio (HU-8)
         double promedio = calCtrl.obtenerPromedio(estudianteId);
         int count = calCtrl.contarCalificadas(estudianteId);
 
         if (promedio < 0) {
-            // Sin calificaciones
             lblPromedio.setText("—");
             lblPromedio.setForeground(Estilos.COLOR_TEXTO_GRIS);
             lblPromedioTexto.setText("Sin calificaciones aún");
@@ -198,7 +182,7 @@ public class PanelMisNotas extends JPanel {
     }
 
     private String letraEquivalente(double nota) {
-        double pct = nota;          // asumiendo nota sobre 100
+        double pct = nota;         
         if (pct >= 90) return "A";
         if (pct >= 80) return "B";
         if (pct >= 70) return "C";

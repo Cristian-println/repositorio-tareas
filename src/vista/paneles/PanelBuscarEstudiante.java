@@ -11,10 +11,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Panel para buscar estudiantes y ver su información académica (HU-5).
- * Responsable: Danner (T35)
- */
 public class PanelBuscarEstudiante extends JPanel {
 
     private JTextField          txtBusqueda;
@@ -22,7 +18,6 @@ public class PanelBuscarEstudiante extends JPanel {
     private JTable              tablaResultados;
     private List<Estudiante>    estudiantesEncontrados;
 
-    // Detalle del estudiante seleccionado
     private JLabel              lblNombre;
     private JLabel              lblCodigo;
     private DefaultTableModel   modeloTareas;
@@ -52,7 +47,6 @@ public class PanelBuscarEstudiante extends JPanel {
         panel.setBackground(Estilos.COLOR_FONDO);
         panel.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 6));
 
-        // ── Barra de búsqueda ──
         JPanel barraBusqueda = new JPanel(new BorderLayout(8, 0));
         barraBusqueda.setBackground(Estilos.COLOR_FONDO);
         txtBusqueda = Estilos.campo(20);
@@ -60,12 +54,11 @@ public class PanelBuscarEstudiante extends JPanel {
         JButton btnBuscar = Estilos.botonPrimario("  Buscar");
         btnBuscar.setPreferredSize(new Dimension(100, 34));
         btnBuscar.addActionListener(e -> buscar());
-        // También buscar con Enter
+
         txtBusqueda.addActionListener(e -> buscar());
         barraBusqueda.add(txtBusqueda, BorderLayout.CENTER);
         barraBusqueda.add(btnBuscar,   BorderLayout.EAST);
 
-        // ── Tabla de resultados ──
         String[] cols = {"Nombre", "Código"};
         modeloResultados = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -91,7 +84,6 @@ public class PanelBuscarEstudiante extends JPanel {
         panel.setBackground(Estilos.COLOR_FONDO);
         panel.setBorder(BorderFactory.createEmptyBorder(8, 6, 8, 12));
 
-        // ── Info básica ──
         JPanel infoPanel = Estilos.panelConTitulo("Información del estudiante");
         infoPanel.setLayout(new GridBagLayout());
         GridBagConstraints g = new GridBagConstraints();
@@ -113,7 +105,6 @@ public class PanelBuscarEstudiante extends JPanel {
         infoPanel.add(lblCodigo, g);
         infoPanel.setPreferredSize(new Dimension(0, 100));
 
-        // ── Tabla de tareas / notas ──
         String[] cols = {"Tarea", "Materia", "Fecha límite", "Estado", "Nota"};
         modeloTareas = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -130,7 +121,6 @@ public class PanelBuscarEstudiante extends JPanel {
         return panel;
     }
 
-    // ── Lógica ───────────────────────────────────────────────────────
     public void cargarDatos() {
         buscarTodos();
     }
@@ -168,12 +158,10 @@ public class PanelBuscarEstudiante extends JPanel {
         lblNombre.setText(est.getNombre());
         lblCodigo.setText(est.getCodigo());
 
-        // Cargar tareas con estado
         modeloTareas.setRowCount(0);
         List<Entrega> entregas = ctrl.obtenerEntregas(est.getId());
         List<Tarea>   tareas   = ctrl.obtenerTareas(est.getId());
 
-        // Crear mapa tarea → entrega
         java.util.Map<Integer, Entrega> mapaEntregas = new java.util.HashMap<>();
         for (Entrega e : entregas) mapaEntregas.put(e.getTareaId(), e);
 

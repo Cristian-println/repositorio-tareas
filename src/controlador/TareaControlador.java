@@ -6,10 +6,6 @@ import validaciones.Validaciones;
 
 import java.util.List;
 
-/**
- * Controlador de operaciones sobre Tarea.
- * Responsable: Danner (T30)
- */
 public class TareaControlador {
 
     private final TareaDAO tareaDAO = new TareaDAO();
@@ -28,17 +24,14 @@ public class TareaControlador {
         return null;
     }
 
-    /** Devuelve las tareas creadas por un docente. */
     public List<Tarea> obtenerTareasDocente(int docenteId) {
         return tareaDAO.obtenerPorDocente(docenteId);
     }
 
-    /** Devuelve las tareas asignadas a un estudiante. */
     public List<Tarea> obtenerTareasEstudiante(int estudianteId) {
         return tareaDAO.obtenerPorEstudiante(estudianteId);
     }
 
-    /** Devuelve las tareas de una materia. */
     public List<Tarea> obtenerTareasPorMateria(int materiaId) {
         return tareaDAO.obtenerPorMateria(materiaId);
     }

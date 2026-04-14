@@ -3,10 +3,6 @@ package modelo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Entidad que representa una tarea académica.
- * Responsable: Joel (T14)
- */
 public class Tarea {
 
     private static final DateTimeFormatter FMT =
@@ -38,7 +34,6 @@ public class Tarea {
         this.docenteId          = docenteId;
     }
 
-    // ── Getters / Setters ────────────────────────────────────────────
     public int           getId()                  { return id; }
     public void          setId(int id)             { this.id = id; }
 
@@ -72,7 +67,6 @@ public class Tarea {
     public LocalDateTime getFechaCreacion()           { return fechaCreacion; }
     public void          setFechaCreacion(LocalDateTime f) { this.fechaCreacion = f; }
 
-    /** Indica si la tarea ya está vencida (fecha límite pasada). */
     public boolean estaVencida() {
         return LocalDateTime.now().isAfter(fechaLimite);
     }

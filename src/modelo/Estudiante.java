@@ -1,9 +1,5 @@
 package modelo;
 
-/**
- * Entidad que representa a un estudiante.
- * Responsable: Joel (T11)
- */
 public class Estudiante {
 
     private int    id;
@@ -23,7 +19,6 @@ public class Estudiante {
         this.codigo = codigo;
     }
 
-    // ── Getters / Setters ────────────────────────────────────────────
     public int    getId()     { return id; }
     public void   setId(int id) { this.id = id; }
 

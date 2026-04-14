@@ -7,11 +7,6 @@ import vista.paneles.PanelMisTareas;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Panel principal para el rol Estudiante.
- * Contiene las pestañas: Mis Tareas, Entregar Tarea, Mis Notas.
- * Responsable: Cristian (T42)
- */
 public class PanelEstudiante extends JPanel {
 
     private int estudianteId = -1;
@@ -49,7 +44,6 @@ public class PanelEstudiante extends JPanel {
         add(tabs, BorderLayout.CENTER);
     }
 
-    /** Carga los datos para el estudiante seleccionado. */
     public void cargarDatos(int estudianteId) {
         this.estudianteId = estudianteId;
         tabs.setSelectedIndex(0);

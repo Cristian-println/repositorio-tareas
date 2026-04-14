@@ -1,9 +1,5 @@
 package modelo;
 
-/**
- * Entidad que representa una materia/asignatura.
- * Responsable: Joel (T13)
- */
 public class Materia {
 
     private int    id;
