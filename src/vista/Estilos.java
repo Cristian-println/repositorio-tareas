@@ -4,10 +4,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-/**
- * Constantes y métodos de fábrica para el estilo visual de la aplicación.
- * Responsable: Danner (T38)
- */
 public class Estilos {
 
     // ── Colores ───────────────────────────────────────────────────────
@@ -25,7 +21,6 @@ public class Estilos {
     public static final Color COLOR_TABLA_PAR  = new Color(232, 240, 254);
     public static final Color COLOR_SELECCION  = new Color(187, 222, 251);
 
-    // ── Fuentes ───────────────────────────────────────────────────────
     public static final Font FUENTE_TITULO    = new Font("Segoe UI", Font.BOLD, 22);
     public static final Font FUENTE_SECCION   = new Font("Segoe UI", Font.BOLD, 16);
     public static final Font FUENTE_NEGRITA   = new Font("Segoe UI", Font.BOLD, 13);
@@ -33,7 +28,6 @@ public class Estilos {
     public static final Font FUENTE_PEQUEÑA   = new Font("Segoe UI", Font.PLAIN, 11);
     public static final Font FUENTE_PROMEDIO  = new Font("Segoe UI", Font.BOLD, 48);
 
-    // ── Botones ───────────────────────────────────────────────────────
     public static JButton botonPrimario(String texto) {
         return estilizarBoton(new JButton(texto), COLOR_PRIMARIO, Color.WHITE, 160, 36);
     }
@@ -62,7 +56,6 @@ public class Estilos {
         return btn;
     }
 
-    // ── Campos de texto ───────────────────────────────────────────────
     public static JTextField campo(int columnas) {
         JTextField t = new JTextField(columnas);
         t.setFont(FUENTE_NORMAL);
@@ -80,7 +73,6 @@ public class Estilos {
         return ta;
     }
 
-    // ── Etiquetas ─────────────────────────────────────────────────────
     public static JLabel etiquetaTitulo(String texto) {
         JLabel l = new JLabel(texto);
         l.setFont(FUENTE_TITULO);
@@ -109,7 +101,6 @@ public class Estilos {
         return l;
     }
 
-    // ── Paneles ───────────────────────────────────────────────────────
     public static JPanel panelConTitulo(String titulo) {
         JPanel p = new JPanel();
         p.setBackground(COLOR_PANEL);
@@ -130,7 +121,6 @@ public class Estilos {
         return p;
     }
 
-    /** Tabla con colores alternados y fuente correcta. */
     public static void estilizarTabla(JTable tabla) {
         tabla.setFont(FUENTE_NORMAL);
         tabla.setRowHeight(28);

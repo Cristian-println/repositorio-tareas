@@ -56,4 +56,36 @@ public class MateriaDAO {
     private Materia mapear(ResultSet rs) throws SQLException {
         return new Materia(rs.getInt("id"), rs.getString("nombre"), rs.getString("codigo"));
     }
+    
+    public int guardar(Materia materia) {
+        String sql = "INSERT INTO materias (nombre, codigo) VALUES (?, ?)";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, materia.getNombre());
+            ps.setString(2, materia.getCodigo());
+            ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) return keys.getInt(1);
+            }
+        } catch (SQLException e) {
+            if (e.getMessage().contains("Duplicate"))
+                throw new RuntimeException("El código '" + materia.getCodigo() + "' ya existe.");
+            System.err.println("[MateriaDAO] guardar: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public boolean existeCodigo(String codigo) {
+        String sql = "SELECT COUNT(*) FROM materias WHERE codigo = ?";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("[MateriaDAO] existeCodigo: " + e.getMessage());
+        }
+        return false;
+    }
 }

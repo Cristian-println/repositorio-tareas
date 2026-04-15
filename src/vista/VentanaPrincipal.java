@@ -9,11 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Ventana principal de la aplicación.
- * Selector de rol y usuario en la cabecera; contenido central con CardLayout.
- * Responsable: Danner (T37)
- */
 public class VentanaPrincipal extends JFrame {
 
     private JComboBox<String>  cmbRol;
@@ -38,7 +33,6 @@ public class VentanaPrincipal extends JFrame {
         cargarUsuarios();
     }
 
-    // ── Construcción de la UI ─────────────────────────────────────────
     private void construirUI() {
         setLayout(new BorderLayout(0, 0));
 
@@ -52,13 +46,11 @@ public class VentanaPrincipal extends JFrame {
         cab.setBackground(Estilos.COLOR_CABECERA);
         cab.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // ── Logo ──
         JLabel lblLogo = new JLabel("   SISTEMA_TAREAS");
         lblLogo.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblLogo.setForeground(Color.WHITE);
         cab.add(lblLogo, BorderLayout.WEST);
 
-        // ── Selector de usuario ──
         JPanel selectorPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
         selectorPanel.setOpaque(false);
 
@@ -91,7 +83,6 @@ public class VentanaPrincipal extends JFrame {
         selectorPanel.add(cmbUsuario);
         cab.add(selectorPanel, BorderLayout.EAST);
 
-        // ── Listeners ──
         cmbRol.addActionListener(e -> onRolCambiado());
         cmbUsuario.addActionListener(e -> onUsuarioCambiado());
 
@@ -166,7 +157,7 @@ public class VentanaPrincipal extends JFrame {
         barra.setBackground(new Color(236, 239, 241));
         barra.setBorder(BorderFactory.createEmptyBorder(4, 14, 4, 14));
 
-        JLabel lblInfo = new JLabel("Sistema Classroom  |  Gestión Académica");
+        JLabel lblInfo = new JLabel("Sistema Tareas  |  Gestión Académica");
         lblInfo.setFont(Estilos.FUENTE_PEQUEÑA);
         lblInfo.setForeground(Estilos.COLOR_TEXTO_GRIS);
         barra.add(lblInfo, BorderLayout.WEST);
@@ -178,13 +169,13 @@ public class VentanaPrincipal extends JFrame {
         return barra;
     }
 
-    // ── Lógica de selección ───────────────────────────────────────────
     private void cargarUsuarios() {
         docentes    = docenteDAO.obtenerTodos();
         estudiantes = estudianteCtrl.obtenerTodos();
     }
 
     private void onRolCambiado() {
+    	cargarUsuarios();
         String rol = (String) cmbRol.getSelectedItem();
         cmbUsuario.removeAllItems();
         cmbUsuario.setEnabled(false);
@@ -207,19 +198,18 @@ public class VentanaPrincipal extends JFrame {
 
         if ("Docente".equals(rol) && sel instanceof Docente) {
             Docente d = (Docente) sel;
-            lblBienvenidaUsuario.setText("👨‍🏫 " + d.getNombre());
+            lblBienvenidaUsuario.setText("   " + d.getNombre());
             panelDocente.cargarDatos(d.getId());
             cardLayout.show(panelCentral, "docente");
 
         } else if ("Estudiante".equals(rol) && sel instanceof Estudiante) {
             Estudiante e = (Estudiante) sel;
-            lblBienvenidaUsuario.setText("🎓 " + e.getNombre() + " [" + e.getCodigo() + "]");
+            lblBienvenidaUsuario.setText("  " + e.getNombre() + " [" + e.getCodigo() + "]");
             panelEstudiante.cargarDatos(e.getId());
             cardLayout.show(panelCentral, "estudiante");
         }
     }
 
-    // ── Ventana ───────────────────────────────────────────────────────
     private void configurarVentana() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1150, 770);
@@ -228,7 +218,7 @@ public class VentanaPrincipal extends JFrame {
     }
 
     private Image crearIcono() {
-        // Icono simple generado programáticamente
+       
         java.awt.image.BufferedImage img =
             new java.awt.image.BufferedImage(32, 32, java.awt.image.BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = img.createGraphics();

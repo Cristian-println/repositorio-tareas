@@ -39,4 +39,21 @@ public class DocenteDAO {
     private Docente mapear(ResultSet rs) throws SQLException {
         return new Docente(rs.getInt("id"), rs.getString("nombre"), rs.getString("email"));
     }
+    
+    public int guardar(Docente docente) {
+        String sql = "INSERT INTO docentes (nombre, email) VALUES (?, ?)";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, docente.getNombre());
+            ps.setString(2, docente.getEmail());
+            ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) return keys.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("[DocenteDAO] guardar: " + e.getMessage());
+        }
+        return -1;
+    }
+
 }

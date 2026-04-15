@@ -92,4 +92,38 @@ public class EstudianteDAO {
     private Estudiante mapear(ResultSet rs) throws SQLException {
         return new Estudiante(rs.getInt("id"), rs.getString("nombre"), rs.getString("codigo"));
     }
+    
+    public int guardar(Estudiante estudiante) {
+        String sql = "INSERT INTO estudiantes (nombre, codigo) VALUES (?, ?)";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, estudiante.getNombre());
+            ps.setString(2, estudiante.getCodigo());
+            ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) return keys.getInt(1);
+            }
+        } catch (SQLException e) {
+            
+            if (e.getMessage().contains("Duplicate")) 
+                throw new RuntimeException("El código '" + estudiante.getCodigo() + "' ya existe.");
+            System.err.println("[EstudianteDAO] guardar: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public boolean existeCodigo(String codigo) {
+        String sql = "SELECT COUNT(*) FROM estudiantes WHERE codigo = ?";
+        try (Connection cn = Conexion.obtenerConexion();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("[EstudianteDAO] existeCodigo: " + e.getMessage());
+        }
+        return false;
+    }
+
 }
